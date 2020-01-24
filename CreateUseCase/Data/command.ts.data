@@ -1,0 +1,2 @@
+id|private readonly id: number|id: number|this.id = id;|getId(): number { \nreturn this.id;\n}
+name|private readonly name: string|name: string|this.name = name;|getName(): string {\n return this.name;\n}

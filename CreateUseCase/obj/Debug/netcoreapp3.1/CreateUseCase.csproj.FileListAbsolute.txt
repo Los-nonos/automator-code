@@ -1,0 +1,11 @@
+/home/cristian/Documentos/personal projects/AutomatorCode/CreateUseCase/obj/Debug/netcoreapp3.1/CreateUseCase.csprojAssemblyReference.cache
+/home/cristian/Documentos/personal projects/AutomatorCode/CreateUseCase/obj/Debug/netcoreapp3.1/CreateUseCase.AssemblyInfoInputs.cache
+/home/cristian/Documentos/personal projects/AutomatorCode/CreateUseCase/obj/Debug/netcoreapp3.1/CreateUseCase.AssemblyInfo.cs
+/home/cristian/Documentos/personal projects/AutomatorCode/CreateUseCase/bin/Debug/netcoreapp3.1/CreateUseCase
+/home/cristian/Documentos/personal projects/AutomatorCode/CreateUseCase/bin/Debug/netcoreapp3.1/CreateUseCase.deps.json
+/home/cristian/Documentos/personal projects/AutomatorCode/CreateUseCase/bin/Debug/netcoreapp3.1/CreateUseCase.runtimeconfig.json
+/home/cristian/Documentos/personal projects/AutomatorCode/CreateUseCase/bin/Debug/netcoreapp3.1/CreateUseCase.runtimeconfig.dev.json
+/home/cristian/Documentos/personal projects/AutomatorCode/CreateUseCase/bin/Debug/netcoreapp3.1/CreateUseCase.dll
+/home/cristian/Documentos/personal projects/AutomatorCode/CreateUseCase/bin/Debug/netcoreapp3.1/CreateUseCase.pdb
+/home/cristian/Documentos/personal projects/AutomatorCode/CreateUseCase/obj/Debug/netcoreapp3.1/CreateUseCase.dll
+/home/cristian/Documentos/personal projects/AutomatorCode/CreateUseCase/obj/Debug/netcoreapp3.1/CreateUseCase.pdb
