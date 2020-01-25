@@ -25,7 +25,7 @@ namespace CreateUseCase
             this.init_path = path;
         }
 
-        public void Execute(string name)
+        public void Execute(string name, string data)
         {
             if (string.IsNullOrWhiteSpace(name))
             {

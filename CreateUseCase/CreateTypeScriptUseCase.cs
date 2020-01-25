@@ -1,5 +1,6 @@
 using System.IO;
 using System;
+using System.Collections.Generic;
 
 namespace CreateUseCase
 {
@@ -8,6 +9,8 @@ namespace CreateUseCase
         #region LoadVariables
         private readonly string init_path;
         private string name_use_case;
+        private string data;
+        private GetData getData;
 
         const string Adapter = "Adapter";
         const string Command = "Command";
@@ -17,12 +20,13 @@ namespace CreateUseCase
         public CreateTypeScriptUseCase(string init_path)
         {
             this.init_path = init_path;
-
+            this.getData = new GetData();
         }
 
-        public void Execute(string name)
+        public void Execute(string name, string data)
         {
             this.name_use_case = name;
+            this.data = data;
             CreateCommand();
             CreateHandler();
             CreateAdapter();
@@ -41,28 +45,17 @@ namespace CreateUseCase
             string name_file = this.CreateName(Command, "ts");
             VerificateFileOrCreate(path, name_file);
             path = Path.Combine(path, name_file);
-            LoadFile(path, Command);
+
+
+            //pasar content y path only, lo demás es responsabilidad de este método
+            LoadFile(path, Command, this.getData.ClearData(this.data));
         }
 
-        private void LoadFile(string path, string typeFile)
+        private void LoadFile(string path, string typeFile, List<DataDTO> info)
         {
-            var streamContent = File.ReadAllLines("../CreateUseCase/Data/command.ts.data");
-
-            string data = null;
-            foreach (var item in streamContent)
-            {
-                if (item.Split('|')[0] == "id")
-                {
-                    data = item;
-                }
-            }
-            if (string.IsNullOrWhiteSpace(data))
-            {
-                throw new Exception();
-            }
             string name = CreateName(typeFile);
 
-            string content = "class " + name + " {\n "+data.Split('|')[1]+"\nconstructor(" + data.Split('|')[2] + ") {\n" + data.Split('|')[3] + "\n} " + data.Split('|')[4] + " } \n\n export default " + name + ";";
+            string content = "class " + name + " {\n "+ MatchInfo.GetVariables(info) +"\nconstructor(" + MatchInfo.GetParams(info) + ") {\n" + MatchInfo.GetConstructor(info) + "\n} " + MatchInfo.GetFunctions(info) + " } \n\n export default " + name + ";";
             File.WriteAllText(path, content);
         }
 

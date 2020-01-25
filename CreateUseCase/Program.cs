@@ -28,8 +28,9 @@ namespace CreateUseCase
 
             Console.Write("Ingrese un nombre de caso de uso: ");
             string name = Console.ReadLine();
-
-            creator.Execute(name);
+            Console.Write("Ingrese las variables que desea tener en cuenta");
+            string info = Console.ReadLine();
+            creator.Execute(name, info);
 
             Console.WriteLine("Hecho!");
         }
