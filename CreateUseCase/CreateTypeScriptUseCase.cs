@@ -48,15 +48,15 @@ namespace CreateUseCase
             string name = CreateName(Command);
 
             List<DataDTO> info = this.getData.ClearData(this.data);
-            string content = "class " + name + " {\n " + MatchInfo.GetVariables(info) + "\nconstructor(" + MatchInfo.GetParams(info) + ") {\n" + MatchInfo.GetConstructor(info) + "\n} " + MatchInfo.GetFunctions(info) + " } \n\n export default " + name + ";";
             List<string> _content = new List<string>() {
                 "class " + name + " {",
-                MatchInfo.GetVariables (info),
-                "constructor(" + MatchInfo.GetParams (info) + ") {",
-                MatchInfo.GetConstructor (info),
+                "\t" + MatchInfo.GetVariables (info),
+                "\tconstructor(" + MatchInfo.GetParams (info) + ") {",
+                "\t" + MatchInfo.GetConstructor (info),
+                "\t}",
+                "\t" + MatchInfo.GetFunctions (info),
                 "}",
-                MatchInfo.GetFunctions (info),
-                "}"
+                "export default " + name + ";"
             };
             LoadFile(path, _content.ToArray());
         }
@@ -88,7 +88,6 @@ namespace CreateUseCase
 
             var a = File.Create(path_file);
             a.Dispose();
-            //return File.OpenWrite(path_file);
         }
 
         private string CreateName(string typeFile, string extension)

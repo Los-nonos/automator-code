@@ -24,7 +24,7 @@ namespace CreateUseCase
 
             foreach (var item in data)
             {
-                _data = _data + item.GetVariable();
+                _data = _data + "\n \t" + item.GetVariable();
             }
 
             return _data.ToString();
@@ -32,12 +32,11 @@ namespace CreateUseCase
 
         public static string GetConstructor(List<DataDTO> data)
         {
-
             string _data = string.Empty;
 
             foreach (var item in data)
             {
-                _data = _data + item.GetConstructor();
+                _data = _data + "\n" + item.GetConstructor();
             }
 
             return _data.ToString();
@@ -50,7 +49,7 @@ namespace CreateUseCase
             foreach (var item in data)
             {
 
-                _data = _data + item.GetFunction();
+                _data = _data + "\n \t" + item.GetFunction();
             }
 
             return _data.ToString();
