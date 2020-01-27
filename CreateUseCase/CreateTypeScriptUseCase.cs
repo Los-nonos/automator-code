@@ -46,17 +46,25 @@ namespace CreateUseCase
             VerificateFileOrCreate(path, name_file);
             path = Path.Combine(path, name_file);
 
+            string name = CreateName(Command);
 
-            //pasar content y path only, lo demás es responsabilidad de este método
-            LoadFile(path, Command, this.getData.ClearData(this.data));
+            List<DataDTO> info = this.getData.ClearData(this.data);
+            string content = "class " + name + " {\n " + MatchInfo.GetVariables(info) + "\nconstructor(" + MatchInfo.GetParams(info) + ") {\n" + MatchInfo.GetConstructor(info) + "\n} " + MatchInfo.GetFunctions(info) + " } \n\n export default " + name + ";";
+            List<string> _content = new List<string>(){
+                "class " + name + " {",
+                MatchInfo.GetVariables(info),
+                "constructor("+MatchInfo.GetParams(info)+") {",
+                MatchInfo.GetConstructor(info),
+                "}",
+                MatchInfo.GetFunctions(info),
+                "}"
+            };
+            LoadFile(path, _content.ToArray());
         }
 
-        private void LoadFile(string path, string typeFile, List<DataDTO> info)
+        private void LoadFile(string path, string[] content)
         {
-            string name = CreateName(typeFile);
-
-            string content = "class " + name + " {\n "+ MatchInfo.GetVariables(info) +"\nconstructor(" + MatchInfo.GetParams(info) + ") {\n" + MatchInfo.GetConstructor(info) + "\n} " + MatchInfo.GetFunctions(info) + " } \n\n export default " + name + ";";
-            File.WriteAllText(path, content);
+            File.WriteAllLines(path, content);
         }
 
         private void CreateHandler()
