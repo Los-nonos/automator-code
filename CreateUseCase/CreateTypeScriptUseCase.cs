@@ -1,6 +1,5 @@
-using System.IO;
-using System;
 using System.Collections.Generic;
+using System.IO;
 
 namespace CreateUseCase
 {
@@ -50,13 +49,13 @@ namespace CreateUseCase
 
             List<DataDTO> info = this.getData.ClearData(this.data);
             string content = "class " + name + " {\n " + MatchInfo.GetVariables(info) + "\nconstructor(" + MatchInfo.GetParams(info) + ") {\n" + MatchInfo.GetConstructor(info) + "\n} " + MatchInfo.GetFunctions(info) + " } \n\n export default " + name + ";";
-            List<string> _content = new List<string>(){
+            List<string> _content = new List<string>() {
                 "class " + name + " {",
-                MatchInfo.GetVariables(info),
-                "constructor("+MatchInfo.GetParams(info)+") {",
-                MatchInfo.GetConstructor(info),
+                MatchInfo.GetVariables (info),
+                "constructor(" + MatchInfo.GetParams (info) + ") {",
+                MatchInfo.GetConstructor (info),
                 "}",
-                MatchInfo.GetFunctions(info),
+                MatchInfo.GetFunctions (info),
                 "}"
             };
             LoadFile(path, _content.ToArray());
