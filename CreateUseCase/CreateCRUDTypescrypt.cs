@@ -47,8 +47,14 @@ namespace CreateUseCase
                 this.CreatePresenter(_data);
             }
             this.CreateRouter(category);
+            //this.CreateEntity(category);
             //this.CreateRepository(category);
             //this.CreateSchema(category);
+        }
+
+        private void CreateEntity(string category)
+        {
+            throw new NotImplementedException();
         }
 
         // TODO : Implement
@@ -102,17 +108,18 @@ namespace CreateUseCase
             this.createFile.VerificateFileOrCreate(path, fileName);
 
             string name = string.Format("{0}{1}", _case, Handler);
-            
+
             string[] content = new string[]
             {
                 "import { Request, Response } from 'express';",
                 "import { inject, injectable } from 'inversify';",
+                string.Format("import {0}Command from '../../Commands/{1}/{0}Command';", _case, category),
                 "",
                 "@injectable()",
                 string.Format("class {0}", name),
                 "{",
                 "\tconstructor() {}",
-                "\tpublic async execute(command: any): Promise<any> {",
+                "\tpublic async execute(command: " + string.Format("{0}Command", _case) + "): Promise<any> {",
                 "\t}",
                 "}",
                 "",
@@ -133,10 +140,6 @@ namespace CreateUseCase
 
             string[] content = new string[]
             {
-                "import { Request, Response } from 'express';",
-                "import { injectable } from 'inversify';",
-                "",
-                "@injectable()",
                 string.Format("class {0}", name),
                 "{",
                 "\tconstructor() {",
@@ -145,22 +148,24 @@ namespace CreateUseCase
                 "",
                 string.Format("export default {0};", name)
             };
+
+            this.createFile.LoadFile(path, fileName, content);
         }
 
         private void CreateRouter(string _case)
         {
             string path = this.createFile.CombinePath("/src/routes/");
-            string fileName = this.createFile.CreateName(_case, Router, "ts");
+            string fileName = this.createFile.CreateName(_case.ToLower(), Router, "ts");
             this.createFile.VerificateFileOrCreate(path, fileName);
 
             string[] content = new string[]{
-                "import container from '../Infraestructure/DI/inversify.config",
+                "import container from '../Infraestructure/DI/inversify.config';",
                 "import asyncMiddleware from '../API/Http/Middleware/AsyncMiddleware';",
-                string.Format("import Create{0}Action from '../API/Http/Actions/Create{0}Action';", name_use_case),
-                string.Format("import Edit{0}Action from '../API/Http/Actions/Edit{0}Action';", name_use_case),
-                string.Format("import Delete{0}Action from '../API/Http/Actions/Delete{0}Action';", name_use_case),
-                string.Format("import FindOne{0}Action from '../API/Http/Actions/FindOne{0}Action';", name_use_case),
-                string.Format("import FindAll{0}Action from '../API/Http/Actions/FindAll{0}Action';", name_use_case),
+                string.Format("import Create{0}Action from '../API/Http/Actions/{0}/Create{0}Action';", name_use_case),
+                string.Format("import Edit{0}Action from '../API/Http/Actions/{0}/Edit{0}Action';", name_use_case),
+                string.Format("import Delete{0}Action from '../API/Http/Actions/{0}/Delete{0}Action';", name_use_case),
+                string.Format("import FindById{0}Action from '../API/Http/Actions/{0}/FindById{0}Action';", name_use_case),
+                string.Format("import Find{0}Action from '../API/Http/Actions/{0}/Find{0}Action';", name_use_case),
                 "import { Router, Request, Response, NextFunction } from 'express';",
                 "import { authMiddleware } from '../API/Http/Middleware/AuthenticationMiddleware';",
                 "",
@@ -172,9 +177,9 @@ namespace CreateUseCase
                 "\t\tauthMiddleware(req, res, next, ['admin']);",
                 "\t},",
                 "\tasyncMiddleware(async (req: Request, res: Response) => {",
-                "\t\t" + string.Format("const action = containter.resolve<Create{0}Action>(Create{0}Action);", name_use_case),
+                "\t\t" + string.Format("const action = container.resolve<Create{0}Action>(Create{0}Action);", name_use_case),
                 "\t\tawait action.execute(req, res);",
-                "\t}",
+                "\t}));",
                 "",
                 "router.put(",
                 string.Format("\t'/{0}/:id',", category),
@@ -182,9 +187,9 @@ namespace CreateUseCase
                 "\t\tauthMiddleware(req, res, next, ['admin']);",
                 "\t},",
                 "\tasyncMiddleware(async (req: Request, res: Response) => {",
-                "\t\t" + string.Format("const action = containter.resolve<Edit{0}Action>(Edit{0}Action);", name_use_case),
+                "\t\t" + string.Format("const action = container.resolve<Edit{0}Action>(Edit{0}Action);", name_use_case),
                 "\t\tawait action.execute(req, res);",
-                "\t}",
+                "\t}));",
                 "",
                 "router.get(",
                 string.Format("\t'/{0}',", category),
@@ -192,9 +197,9 @@ namespace CreateUseCase
                 "\t\tauthMiddleware(req, res, next, ['admin']);",
                 "\t},",
                 "\tasyncMiddleware(async (req: Request, res: Response) => {",
-                "\t\t" + string.Format("const action = containter.resolve<FindAll{0}Action>(FindAll{0}Action);", name_use_case),
+                "\t\t" + string.Format("const action = container.resolve<Find{0}Action>(Find{0}Action);", name_use_case),
                 "\t\tawait action.execute(req, res);",
-                "\t}",
+                "\t}));",
                 "",
                 "router.get(",
                 string.Format("\t'/{0}/:id',", category),
@@ -202,9 +207,9 @@ namespace CreateUseCase
                 "\t\tauthMiddleware(req, res, next, ['admin']);",
                 "\t},",
                 "\tasyncMiddleware(async (req: Request, res: Response) => {",
-                "\t\t" + string.Format("const action = containter.resolve<Find{0}Action>(Find{0}Action);", name_use_case),
+                "\t\t" + string.Format("const action = container.resolve<FindById{0}Action>(FindById{0}Action);", name_use_case),
                 "\t\tawait action.execute(req, res);",
-                "\t}",
+                "\t}));",
                 "",
                 "router.delete(",
                 string.Format("\t'/{0}',", category),
@@ -212,9 +217,9 @@ namespace CreateUseCase
                 "\t\tauthMiddleware(req, res, next, ['admin']);",
                 "\t},",
                 "\tasyncMiddleware(async (req: Request, res: Response) => {",
-                "\t\t" + string.Format("const action = containter.resolve<Delete{0}Action>(Delete{0}Action);", name_use_case),
+                "\t\t" + string.Format("const action = container.resolve<Delete{0}Action>(Delete{0}Action);", name_use_case),
                 "\t\tawait action.execute(req, res);",
-                "\t}",
+                "\t}));",
                 "",
                 "export default router;"
             };
@@ -226,7 +231,7 @@ namespace CreateUseCase
         private void CreateSchema(string _case)
         {
             string path = this.createFile.CombinePath(string.Format("/src/API/Http/Validator/Schemas/{0}", this.category));
-            string fileName = this.createFile.CreateName(_case, Schema, "ts");
+            string fileName = this.createFile.CreateName(name_use_case, Schema, "ts");
             this.createFile.VerificateFileOrCreate(path, fileName);
         }
 
@@ -236,13 +241,18 @@ namespace CreateUseCase
             string fileName = this.createFile.CreateName(_case, Adapter, "ts");
             this.createFile.VerificateFileOrCreate(path, fileName);
 
-            string name = string.Format("{0}{1}", _case, Action);
+            string name = string.Format("{0}{1}", _case, Adapter);
+            string name_command = string.Format("{0}{1}", _case, Command);
+            string name_schema = string.Format("{0}{1}", name_use_case, Schema);
+
             string[] content = new string[]
             {
                 "import { Request, Response } from 'express';",
                 "import { inject, injectable } from 'inversify';",
                 "import Validator from '../../Validator/Validator';",
                 "import { BadRequest } from '../../Errors/BadRequest';",
+                string.Format("import {0} from '../../../../Application/Commands/{1}/{0}';", name_command, category),
+                string.Format("import {0} from '../../Validator/Schemas/{0}';", name_schema),
                 "",
                 "@injectable()",
                 string.Format("class {0}", name),
@@ -251,12 +261,12 @@ namespace CreateUseCase
                 "\tconstructor(@inject(Validator) validator: Validator) {",
                 "\t\tthis.validator = validator;",
                 "\t}",
-                "\tpublic async from(req: Request, res: Response): Promise<any> {",
-                "\t\tconst error = this.validator.validate(req.body, null);",
+                "\tpublic async from(req: Request): Promise<"+name_command+"> {",
+                string.Format("\t\tconst error = this.validator.validate(req.body, {0});", name_schema),
                 "\t\tif(error) {",
-                "\t\t\tthrow new BadRequest(JSON.stringfy(this.validator.validationResult(error)));",
+                "\t\t\tthrow new BadRequest(JSON.stringify(this.validator.validationResult(error)));",
                 "\t\t}",
-                "\t\treturn new Object(req.body);",
+                string.Format("\t\treturn new {0}(req.body);", name_command),
                 "\t}",
                 "}",
                 "",
@@ -273,6 +283,8 @@ namespace CreateUseCase
             this.createFile.VerificateFileOrCreate(path, fileName);
 
             string name = string.Format("{0}{1}", _case, Action);
+            string name_handler = string.Format("{0}{1}", _case, Handler);
+            string name_adapter = string.Format("{0}{1}", _case, Adapter);
             string[] content = new string[]
             {
                 "import { Request, Response } from 'express';",
@@ -280,13 +292,15 @@ namespace CreateUseCase
                 "import Presenter from '../../Presenters/null';",
                 "import { success } from '../../Presenters/Base/success';",
                 "import { HTTP_CODES } from '../../Enums/HttpCodes';",
+                string.Format("import {0} from '../../Adapter/{1}/{0}';", name_adapter, category),
+                string.Format("import {0} from '../../../../Application/Handlers/{1}/{0}';", name_handler, category),
                 "",
                 "@injectable()",
                 string.Format("class {0}", name),
                 "{",
-                "\tprivate adapter: any;",
-                "\tprivate handler: any;",
-                "\tconstructor(@inject(any) adapter: any, @inject(any) handler: any) {",
+                string.Format("\tprivate adapter: {0};", name_adapter),
+                string.Format("\tprivate handler: {0};", name_handler),
+                "\tconstructor("+string.Format("@inject({0}) adapter: {0}, @inject({1}) handler: {1}", name_adapter, name_handler)+") {",
                 "\t\tthis.adapter = adapter;",
                 "\t\tthis.handler = handler;",
                 "\t}",

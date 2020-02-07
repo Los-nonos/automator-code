@@ -117,12 +117,13 @@ namespace CreateUseCase
             {
                 "import { Request, Response } from 'express';",
                 "import { inject, injectable } from 'inversify';",
+                string.Format("import {0}Command from '../../Commands/{1}/{0}Command';", name_use_case, category),
                 "",
                 "@injectable()",
                 string.Format("class {0}", name),
                 "{",
                 "\tconstructor() {}",
-                "\tpublic async execute(command: any): Promise<any> {",
+                "\tpublic async execute(command: " + string.Format("{0}Command", name_use_case) + "): Promise<any> {",
                 "\t}",
                 "}",
                 "",
@@ -139,6 +140,8 @@ namespace CreateUseCase
             this.createFile.VerificateFileOrCreate(path, fileName);
 
             string name = this.createFile.CreateName(Action);
+            string name_handler = string.Format("{0}{1}", name_use_case, Handler);
+            string name_adapter = string.Format("{0}{1}", name_use_case, Adapter);
             string[] content = new string[]
             {
                 "import { Request, Response } from 'express';",
@@ -146,13 +149,15 @@ namespace CreateUseCase
                 "import Presenter from '../../Presenters/null';",
                 "import { success } from '../../Presenters/Base/success';",
                 "import { HTTP_CODES } from '../../Enums/HttpCodes';",
+                string.Format("import {0} from '../../Adapter/{1}/{0}';", name_adapter, category),
+                string.Format("import {0} from '../../../../Application/Handlers/{1}/{0}';", name_handler, category),
                 "",
                 "@injectable()",
                 string.Format("class {0}", name),
                 "{",
-                "\tprivate adapter: any;",
-                "\tprivate handler: any;",
-                "\tconstructor(@inject(any) adapter: any, @inject(any) handler: any) {",
+                string.Format("\tprivate adapter: {0};", name_adapter),
+                string.Format("\tprivate handler: {0};", name_handler),
+                "\tconstructor("+string.Format("@inject({0}) adapter: {0}, @inject({1}) handler: {1}", name_adapter, name_handler)+") {",
                 "\t\tthis.adapter = adapter;",
                 "\t\tthis.handler = handler;",
                 "\t}",
