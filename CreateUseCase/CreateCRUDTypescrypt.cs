@@ -51,6 +51,7 @@ namespace CreateUseCase
             //this.CreateSchema(category);
         }
 
+        // TODO : Implement
         private void CreateRepository(string category)
         {
             throw new NotImplementedException();
@@ -121,6 +122,7 @@ namespace CreateUseCase
             this.createFile.LoadFile(path, fileName, content);
         }
 
+        // TODO : Implement load variables
         private void CreateCommand(string _case)
         {
             string path = this.createFile.CombinePath(string.Format("/src/Application/Commands/{0}", this.category));
@@ -220,6 +222,7 @@ namespace CreateUseCase
             this.createFile.LoadFile(path, fileName, content);
         }
 
+        // TODO: Implement
         private void CreateSchema(string _case)
         {
             string path = this.createFile.CombinePath(string.Format("/src/API/Http/Validator/Schemas/{0}", this.category));
