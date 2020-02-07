@@ -6,7 +6,10 @@ namespace CreateUseCase
     {
         static void Main(string[] args)
         {
-            var verificator = new VerificateCategory("/home/cristian/Documentos/Varios/testsphp");
+            Console.Write("Ingrese la ruta de acceso donde se encuentra el repositorio: ");
+            string path = Console.ReadLine();
+
+            var verificator = new VerificateCategory(path);
             Console.WriteLine("Ingrese una opción:");
             Console.WriteLine("1 - PHP");
             Console.WriteLine("2 - TypeScript");
@@ -17,10 +20,10 @@ namespace CreateUseCase
             switch (option)
             {
                 case "1":
-                    creator = new CreatePHPUseCase("/home/cristian/Documentos/Varios/testsphp");
+                    creator = new CreatePHPUseCase(path);
                     break;
                 case "2":
-                    creator = new CreateTypeScriptUseCase("/home/cristian/Documentos/Varios/tests");
+                    creator = new CreateTypeScriptUseCase(path);
                     break;
                 default:
                     Console.WriteLine("la opción no es valida, abortando");

@@ -47,8 +47,8 @@ namespace CreateUseCase
                 this.CreatePresenter(_data);
             }
             this.CreateRouter(category);
-            this.CreateRepository(category);
-            this.CreateSchema(category);
+            //this.CreateRepository(category);
+            //this.CreateSchema(category);
         }
 
         private void CreateRepository(string category)
@@ -96,13 +96,12 @@ namespace CreateUseCase
 
         private void CreateHandler(string _case)
         {
-            string path = this.createFile.CombinePath(string.Format("/src/API/Http/Presenter/{0}", this.category));
+            string path = this.createFile.CombinePath(string.Format("/src/Application/Handlers/{0}", this.category));
             string fileName = this.createFile.CreateName(_case, Handler, "ts");
             this.createFile.VerificateFileOrCreate(path, fileName);
 
             string name = string.Format("{0}{1}", _case, Handler);
             
-            // TODO: Modificate content for handler
             string[] content = new string[]
             {
                 "import { Request, Response } from 'express';",
@@ -148,25 +147,25 @@ namespace CreateUseCase
 
         private void CreateRouter(string _case)
         {
-            string path = this.createFile.CombinePath(string.Format("{0}", this.category));
+            string path = this.createFile.CombinePath("/src/routes/");
             string fileName = this.createFile.CreateName(_case, Router, "ts");
-            this.createFile.VerificateFileOrCreate("/src/routes/", fileName);
+            this.createFile.VerificateFileOrCreate(path, fileName);
 
             string[] content = new string[]{
                 "import container from '../Infraestructure/DI/inversify.config",
                 "import asyncMiddleware from '../API/Http/Middleware/AsyncMiddleware';",
-                "import Create{0}Action from '../API/Http/Actions/Create{0}Action';",
-                "import Edit{0}Action from '../API/Http/Actions/Edit{0}Action';",
-                "import Delete{0}Action from '../API/Http/Actions/Delete{0}Action';",
-                "import FindOne{0}Action from '../API/Http/Actions/FindOne{0}Action';",
-                "import FindAll{0}Action from '../API/Http/Actions/FindAll{0}Action';",
+                string.Format("import Create{0}Action from '../API/Http/Actions/Create{0}Action';", name_use_case),
+                string.Format("import Edit{0}Action from '../API/Http/Actions/Edit{0}Action';", name_use_case),
+                string.Format("import Delete{0}Action from '../API/Http/Actions/Delete{0}Action';", name_use_case),
+                string.Format("import FindOne{0}Action from '../API/Http/Actions/FindOne{0}Action';", name_use_case),
+                string.Format("import FindAll{0}Action from '../API/Http/Actions/FindAll{0}Action';", name_use_case),
                 "import { Router, Request, Response, NextFunction } from 'express';",
                 "import { authMiddleware } from '../API/Http/Middleware/AuthenticationMiddleware';",
                 "",
                 "const router = Router();",
                 "",
                 "router.post(",
-                string.Format("\t'/{0}", category),
+                string.Format("\t'/{0}',", category),
                 "\t(req: Request, res: Response, next: NextFunction) => {",
                 "\t\tauthMiddleware(req, res, next, ['admin']);",
                 "\t},",
@@ -176,7 +175,7 @@ namespace CreateUseCase
                 "\t}",
                 "",
                 "router.put(",
-                string.Format("\t'/{0}/:id", category),
+                string.Format("\t'/{0}/:id',", category),
                 "\t(req: Request, res: Response, next: NextFunction) => {",
                 "\t\tauthMiddleware(req, res, next, ['admin']);",
                 "\t},",
@@ -186,7 +185,7 @@ namespace CreateUseCase
                 "\t}",
                 "",
                 "router.get(",
-                string.Format("\t'/{0}", category),
+                string.Format("\t'/{0}',", category),
                 "\t(req: Request, res: Response, next: NextFunction) => {",
                 "\t\tauthMiddleware(req, res, next, ['admin']);",
                 "\t},",
@@ -196,7 +195,7 @@ namespace CreateUseCase
                 "\t}",
                 "",
                 "router.get(",
-                string.Format("\t'/{0}/:id", category),
+                string.Format("\t'/{0}/:id',", category),
                 "\t(req: Request, res: Response, next: NextFunction) => {",
                 "\t\tauthMiddleware(req, res, next, ['admin']);",
                 "\t},",
@@ -206,7 +205,7 @@ namespace CreateUseCase
                 "\t}",
                 "",
                 "router.delete(",
-                string.Format("\t'/{0}", category),
+                string.Format("\t'/{0}',", category),
                 "\t(req: Request, res: Response, next: NextFunction) => {",
                 "\t\tauthMiddleware(req, res, next, ['admin']);",
                 "\t},",
