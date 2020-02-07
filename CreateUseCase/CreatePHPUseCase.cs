@@ -25,7 +25,7 @@ namespace CreateUseCase
             this.init_path = path;
         }
 
-        public void Execute(string name, string data)
+        public void Execute(string name, string data, string category)
         {
             if (string.IsNullOrWhiteSpace(name))
             {
@@ -88,6 +88,11 @@ namespace CreateUseCase
         private string CombinePath(string path)
         {
             return this.init_path + path;
+        }
+
+        public bool VerificateUseCase(string category)
+        {
+            throw new NotImplementedException();
         }
     }
 }

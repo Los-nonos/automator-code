@@ -1,3 +1,4 @@
+using System;
 using System.Collections.Generic;
 using System.IO;
 
@@ -9,12 +10,16 @@ namespace CreateUseCase
         private readonly string init_path;
         private string name_use_case;
         private string data;
+        private string category;
         private GetData getData;
+        private CreateFile createFile;
 
         const string Adapter = "Adapter";
         const string Command = "Command";
         const string Handler = "Handler";
-        const string Controller = "Controller";
+        const string Action = "Action";
+        const string Presenter = "Presenter";
+        const string Schema = "Schema";
         #endregion
         public CreateTypeScriptUseCase(string init_path)
         {
@@ -22,30 +27,32 @@ namespace CreateUseCase
             this.getData = new GetData();
         }
 
-        public void Execute(string name, string data)
+        public void Execute(string name, string data, string category)
         {
             this.name_use_case = name;
+            this.category = category;
             this.data = data;
+            this.createFile = new CreateFile(name, init_path);
             CreateCommand();
             CreateHandler();
             CreateAdapter();
-            CreateController();
+            CreateAction();
         }
 
         private void CreateAdapter()
         {
-            string path = this.CombinePath("/src/Application/API/Http/Adapters");
-            VerificateFileOrCreate(path, this.CreateName(Adapter, "ts"));
+            string path = this.createFile.CombinePath(string.Format("/src/API/Http/Adapters/{0}", this.category));
+            this.createFile.VerificateFileOrCreate(path, this.createFile.CreateName(Adapter, "ts"));
         }
 
         private void CreateCommand()
         {
-            string path = this.CombinePath("/src/Domain/Commands");
-            string name_file = this.CreateName(Command, "ts");
-            VerificateFileOrCreate(path, name_file);
+            string path = this.createFile.CombinePath("/src/Application/Commands");
+            string name_file = this.createFile.CreateName(Command, "ts");
+            this.createFile.VerificateFileOrCreate(path, name_file);
             path = Path.Combine(path, name_file);
 
-            string name = CreateName(Command);
+            string name = this.createFile.CreateName(Command);
 
             List<DataDTO> info = this.getData.ClearData(this.data);
             List<string> _content = new List<string>() {
@@ -68,41 +75,14 @@ namespace CreateUseCase
 
         private void CreateHandler()
         {
-            string path = this.CombinePath("/src/Domain/Handlers");
-            VerificateFileOrCreate(path, this.CreateName(Handler, "ts"));
+            string path = this.createFile.CombinePath(string.Format("/src/Application/Handlers/{0}", this.category));
+            this.createFile.VerificateFileOrCreate(path, this.createFile.CreateName(Handler, "ts"));
         }
 
-        private void CreateController()
+        private void CreateAction()
         {
-            string path = this.CombinePath("/src/Application/Controllers");
-            VerificateFileOrCreate(path, this.CreateName(Controller, "ts"));
-        }
-
-        private void VerificateFileOrCreate(string path, string nameFile)
-        {
-            if (!Directory.Exists(path))
-            {
-                Directory.CreateDirectory(path);
-            }
-            string path_file = Path.Combine(path, nameFile);
-
-            var a = File.Create(path_file);
-            a.Dispose();
-        }
-
-        private string CreateName(string typeFile, string extension)
-        {
-            return string.Format("{0}{1}.{2}", this.name_use_case, typeFile, extension);
-        }
-
-        private string CreateName(string typeFile)
-        {
-            return string.Format("{0}{1}", this.name_use_case, typeFile);
-        }
-
-        private string CombinePath(string path)
-        {
-            return this.init_path + path;
+            string path = this.createFile.CombinePath(string.Format("/src/API/Http/Actions/{0}", this.category));
+            this.createFile.VerificateFileOrCreate(path, this.createFile.CreateName(Action, "ts"));
         }
     }
 }
