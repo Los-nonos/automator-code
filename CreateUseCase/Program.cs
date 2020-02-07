@@ -4,18 +4,18 @@ namespace CreateUseCase
 {
     class Program
     {
+        static VerificateCategory verificator;
+        static ICreateUseCase creator;
         static void Main(string[] args)
         {
             Console.Write("Ingrese la ruta de acceso donde se encuentra el repositorio: ");
             string path = Console.ReadLine();
 
-            var verificator = new VerificateCategory(path);
+            verificator = new VerificateCategory(path);
             Console.WriteLine("Ingrese una opción:");
             Console.WriteLine("1 - PHP");
             Console.WriteLine("2 - TypeScript");
             string option = Console.ReadLine();
-
-            ICreateUseCase creator;
 
             switch (option)
             {
@@ -23,16 +23,21 @@ namespace CreateUseCase
                     creator = new CreatePHPUseCase(path);
                     break;
                 case "2":
-                    creator = new CreateTypeScriptUseCase(path);
+                    HandleTypescript(path);
                     break;
                 default:
                     Console.WriteLine("la opción no es valida, abortando");
                     return;
             }
 
+            Console.WriteLine("Hecho!");
+        }
+
+        private static void HandleTypescript(string path)
+        {
             Console.Write("Ingrese la categoria del caso de uso: ");
             string category = Console.ReadLine();
-
+            Console.WriteLine(verificator.Verificate(category));
             if (!verificator.Verificate(category))
             {
                 Console.Write("La categoria no existe, ¿desea crear el CRUD?: (y/n)");
@@ -40,23 +45,23 @@ namespace CreateUseCase
                 switch (_option)
                 {
                     case "y":
-                        creator = new CreateCRUDTypescrypt("/home/cristian/Documentos/Varios/tests");
+                        creator = new CreateCRUDTypescrypt(path);
                         creator.Execute(category, null, category);
-                        break;
+                        return;
                     case "n":
-                        Console.Write("Ingrese un nombre de caso de uso: ");
-                        string name = Console.ReadLine();
-                        Console.Write("Ingrese las variables que desea tener en cuenta: ");
-                        string info = Console.ReadLine();
-                        creator.Execute(name, info, category);
                         break;
                     default:
-                        Console.WriteLine("La opción no es valida, ingrese una");
-                        break;
+                        Console.WriteLine("La opción no es valida, abortando");
+                        return;
                 }
             }
-
-            Console.WriteLine("Hecho!");
+            
+            creator = new CreateTypeScriptUseCase(path);
+            Console.Write("Ingrese un nombre de caso de uso: ");
+            string name = Console.ReadLine();
+            Console.Write("Ingrese las variables que desea tener en cuenta: ");
+            string info = Console.ReadLine();
+            creator.Execute(name, info, category);
         }
     }
 }
