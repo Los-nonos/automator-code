@@ -33,22 +33,21 @@ namespace CreateUseCase
             this.category = category;
             this.data = data;
             this.createFile = new CreateFile(name, init_path);
-            CreatePresenter();
-            CreateCommand();
+            //CreatePresenter();
             CreateHandler();
             CreateAdapter();
             CreateAction();
+            CreateCommand();
         }
 
-        // TODO : Implement
         private void CreatePresenter()
         {
-            throw new NotImplementedException();
+            
         }
 
         private void CreateAdapter()
         {
-            string path = this.createFile.CombinePath(string.Format("/src/API/Http/Adapters/{0}", this.category));
+            string path = this.createFile.CombinePath(string.Format("/src/API/Http/Adapter/{0}", this.category));
             string fileName = this.createFile.CreateName(Adapter, "ts");
             this.createFile.VerificateFileOrCreate(path, fileName);
 
@@ -84,7 +83,7 @@ namespace CreateUseCase
 
         private void CreateCommand()
         {
-            string path = this.createFile.CombinePath("/src/Application/Commands");
+            string path = this.createFile.CombinePath(string.Format("/src/Application/Commands/{0}", category));
             string name_file = this.createFile.CreateName(Command, "ts");
             this.createFile.VerificateFileOrCreate(path, name_file);
             path = Path.Combine(path, name_file);
