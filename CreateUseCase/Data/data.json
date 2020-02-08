@@ -1,44 +1,42 @@
-{
-  "data": [
-    {
-      "name": "id",
-      "variableCommand": "private readonly id: number;",
-      "param": "id: number",
-      "assignConstructor": "this.id = id;",
-      "function": "getId(): number { return this.id; }",
-      "schemaJoi": "id: Joi.number().min(0).required(),"
-    },
-    {
-      "name": "name",
-      "variableCommand": "private readonly name: string;",
-      "param": "id: string",
-      "assignConstructor": "this.name = name;",
-      "function": "getName(): string { return this.name; }",
-      "schemaJoi": "name: Joi.string().min(5).max(100).required(),"
-    },
-    {
-      "name": "password",
-      "variableCommand": "private readonly password: string;",
-      "param": "password: string",
-      "assignConstructor": "this.password = password;",
-      "function": "getPassword(): string { return this.password; }",
-      "schemaJoi": "password: Joi.string().min(8).max(30).required(),"
-    },
-    {
-      "name": "country",
-      "variableCommand": "private readonly country: string;",
-      "param": "country: string",
-      "assignConstructor": "this.country = country;",
-      "function": "getCountry(): string { return this.country; }",
-      "schemaJoi": "country: Joi.string().length(2).required(),"
-    },
-    {
-      "name": "description",
-      "variableCommand": "private readonly description: string;",
-      "param": "description: string",
-      "assignConstructor": "this.description = description;",
-      "function": "getDescription(): string { return this.description; }",
-      "schemaJoi": "description: Joi.string().min(15).max(255).allow(''),"
-    }
-  ]
-}
+[
+  {
+    "name": "id",
+    "variableCommand": "private readonly id: number;",
+    "param": "id: number",
+    "assignConstructor": "this.id = id;",
+    "function": "getId(): number { return this.id; }",
+    "schemaJoi": "id: Joi.number().min(0).required(),"
+  },
+  {
+    "name": "name",
+    "variableCommand": "private readonly name: string;",
+    "param": "id: string",
+    "assignConstructor": "this.name = name;",
+    "function": "getName(): string { return this.name; }",
+    "schemaJoi": "name: Joi.string().min(5).max(100).required(),"
+  },
+  {
+    "name": "password",
+    "variableCommand": "private readonly password: string;",
+    "param": "password: string",
+    "assignConstructor": "this.password = password;",
+    "function": "getPassword(): string { return this.password; }",
+    "schemaJoi": "password: Joi.string().min(8).max(30).required(),"
+  },
+  {
+    "name": "country",
+    "variableCommand": "private readonly country: string;",
+    "param": "country: string",
+    "assignConstructor": "this.country = country;",
+    "function": "getCountry(): string { return this.country; }",
+    "schemaJoi": "country: Joi.string().length(2).required(),"
+  },
+  {
+    "name": "description",
+    "variableCommand": "private readonly description: string;",
+    "param": "description: string",
+    "assignConstructor": "this.description = description;",
+    "function": "getDescription(): string { return this.description; }",
+    "schemaJoi": "description: Joi.string().min(15).max(255).allow(''),"
+  }
+]

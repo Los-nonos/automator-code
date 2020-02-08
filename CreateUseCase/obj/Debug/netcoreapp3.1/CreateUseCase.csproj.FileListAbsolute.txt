@@ -9,3 +9,5 @@
 /home/cristian/Documentos/personal projects/automator-code/CreateUseCase/obj/Debug/netcoreapp3.1/CreateUseCase.AssemblyInfo.cs
 /home/cristian/Documentos/personal projects/automator-code/CreateUseCase/obj/Debug/netcoreapp3.1/CreateUseCase.dll
 /home/cristian/Documentos/personal projects/automator-code/CreateUseCase/obj/Debug/netcoreapp3.1/CreateUseCase.pdb
+/home/cristian/Documentos/personal projects/automator-code/CreateUseCase/bin/Debug/netcoreapp3.1/Newtonsoft.Json.dll
+/home/cristian/Documentos/personal projects/automator-code/CreateUseCase/obj/Debug/netcoreapp3.1/CreateUseCase.csproj.CopyComplete

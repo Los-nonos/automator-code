@@ -1,6 +1,4 @@
-using System;
 using System.Collections.Generic;
-using System.Text;
 
 namespace CreateUseCase
 {
@@ -12,7 +10,7 @@ namespace CreateUseCase
 
             foreach (var item in data)
             {
-                _data = _data + item.GetParam() + ",";
+                _data = _data + item.Param + ",";
             }
 
             return _data.Remove(_data.Length - 1);
@@ -24,7 +22,7 @@ namespace CreateUseCase
 
             foreach (var item in data)
             {
-                _data = _data + "\n \t" + item.GetVariable();
+                _data = _data + "\n \t" + item.Variable;
             }
 
             return _data.ToString();
@@ -36,7 +34,7 @@ namespace CreateUseCase
 
             foreach (var item in data)
             {
-                _data = _data + "\n" + item.GetConstructor();
+                _data = _data + "\n" + item.AssignConstructor;
             }
 
             return _data.ToString();
@@ -49,7 +47,7 @@ namespace CreateUseCase
             foreach (var item in data)
             {
 
-                _data = _data + "\n \t" + item.GetFunction();
+                _data = _data + "\n \t" + item.Function;
             }
 
             return _data.ToString();

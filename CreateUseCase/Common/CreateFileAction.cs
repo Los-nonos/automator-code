@@ -51,9 +51,9 @@ namespace CreateUseCase
             File.WriteAllLines(_path, content);
         }
 
-        public string CombinePath(string path)
+        public string CombinePath(string path, string category)
         {
-            return this.base_path + path;
+            return this.base_path + path + category;
         }
     }
 }
