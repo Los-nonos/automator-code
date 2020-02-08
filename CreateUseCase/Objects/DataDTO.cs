@@ -16,5 +16,9 @@ namespace CreateUseCase
         public string AssignConstructor { get; set; }
         [JsonProperty("schemaJoi")]
         public string SchemaJoi { get; set; }
+        [JsonProperty("propertyEntity")]
+        public string PropertyEntity { get; set; }
+        [JsonProperty("valueEntity")]
+        public string ValueEntity { get; set; }
     }
 }

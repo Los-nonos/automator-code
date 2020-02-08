@@ -35,7 +35,6 @@ namespace CreateUseCase
                             }
                         }
                     }
-                    Console.WriteLine(_data.Count);
                     return _data;
                 }
                 else
@@ -233,7 +232,7 @@ namespace CreateUseCase
                 "\tpublic toJson(): string {",
                 "\t\treturn JSON.stringify(this.getData());",
                 "\t}",
-                "\tpublic getData(): string {",
+                "\tpublic getData(): object {",
                 "\t\treturn { message: this.message, result: this.result };",
                 "\t}",
                 "}",

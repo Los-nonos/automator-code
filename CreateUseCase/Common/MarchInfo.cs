@@ -23,7 +23,7 @@ namespace CreateUseCase
 
             foreach (var item in data)
             {
-                _data = _data + "\n \t" + item.Variable;
+                _data = _data + "\n\t" + item.Variable;
             }
 
             return _data.ToString();
@@ -48,36 +48,84 @@ namespace CreateUseCase
             foreach (var item in data)
             {
 
-                _data = _data + "\n \t" + item.Function;
+                _data = _data + "\n\t" + item.Function;
             }
 
             return _data.ToString();
         }
 
-        // TODO: Implement
         internal static string GetCreateSchemaJoi(List<DataDTO> data)
         {
-            throw new NotImplementedException();
+            if (data[0].type == "id")
+            {
+                data.Remove(data[0]);
+            }
+
+            string pattern = "";
+
+            foreach (var item in data)
+            {
+                pattern += item.SchemaJoi;    
+            }
+
+            return pattern;
         }
 
         internal static string GetEditSchemaJoi(List<DataDTO> data)
         {
-            throw new NotImplementedException();
+            string pattern = "";
+
+            foreach (var item in data)
+            {
+                pattern += item.SchemaJoi;    
+            }
+
+            return pattern;
         }
 
         internal static string GetFindByIdSchemaJoi(List<DataDTO> data)
         {
-            throw new NotImplementedException();
+            return "id: Joi.number().min(0).required(),";
         }
 
         internal static string GetFindSchemaJoi(List<DataDTO> data)
         {
-            throw new NotImplementedException();
+            string pattern = "";
+
+            foreach (var item in data)
+            {
+                pattern += item.SchemaJoi;    
+            }
+
+            return pattern;
         }
 
         internal static string GetPropsEntityTs(List<DataDTO> data)
         {
-            throw new NotImplementedException();
+            string pattern = "";
+            if (data[0].type == "id")
+            {
+                foreach (var item in data)
+                {
+                    pattern += string.Format("\t{0}\n\t{1}", item.PropertyEntity, item.ValueEntity);
+                }
+            }
+            else
+            {
+                pattern = ("\t@PrimaryGeneratedColumn()\n\tpublic Id!: number");
+
+                foreach (var item in data)
+                {
+                    pattern += string.Format("\t{0}\n\t{1}", item.PropertyEntity, item.ValueEntity);
+                }
+            }
+
+            return pattern;
+        }
+
+        internal static string GetDeleteSchemaJoi(List<DataDTO> data)
+        {
+            return "id: Joi.number().min(0).required(),";
         }
     }
 }

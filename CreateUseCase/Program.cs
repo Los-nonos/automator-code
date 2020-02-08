@@ -46,7 +46,9 @@ namespace CreateUseCase
                 {
                     case "y":
                         creator = new CreateCRUDTypescrypt(path);
-                        creator.Execute(category, null, category);
+                        Console.Write("Ingrese las variables a tener en cuenta: ");
+                        string data = Console.ReadLine();
+                        creator.Execute(category, data, category);
                         return;
                     case "n":
                         break;

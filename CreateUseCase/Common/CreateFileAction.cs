@@ -19,7 +19,6 @@ namespace CreateUseCase
 
         public void VerificateFileOrCreate(string path, string nameFile)
         {
-            Console.WriteLine(path);
             if (!Directory.Exists(path))
             {
                 Directory.CreateDirectory(path);
@@ -35,9 +34,9 @@ namespace CreateUseCase
             return string.Format("{0}{1}.{2}", this.name_use_case, typeFile, extension);
         }
 
-        public string CreateName(string typeFile)
+        public string CreateName(string extension)
         {
-            return string.Format("{0}{1}", this.name_use_case, typeFile);
+            return string.Format("{0}.{1}", this.name_use_case, extension);
         }
 
         public string CreateName(string nameUseCase, string typeFile, string extension)
@@ -54,6 +53,10 @@ namespace CreateUseCase
         public string CombinePath(string path, string category)
         {
             return this.base_path + path + category;
+        }
+        public string CombinePath(string path)
+        {
+            return this.base_path + path;
         }
     }
 }
