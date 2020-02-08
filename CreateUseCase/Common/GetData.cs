@@ -205,8 +205,11 @@ namespace CreateUseCase
             {
                 string.Format("class {0}", name),
                 "{",
-                "\tconstructor() {",
+                MatchInfo.GetVariables(data),
+                "\tconstructor("+MatchInfo.GetParams(data)+") {",
+                "\t\t"+ MatchInfo.GetConstructor(data),
                 "\t}",
+                MatchInfo.GetFunctions(data),
                 "}",
                 "",
                 string.Format("export default {0};", name)

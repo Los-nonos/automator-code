@@ -1,3 +1,4 @@
+using System;
 using System.Collections.Generic;
 
 namespace CreateUseCase
@@ -51,6 +52,32 @@ namespace CreateUseCase
             }
 
             return _data.ToString();
+        }
+
+        // TODO: Implement
+        internal static string GetCreateSchemaJoi(List<DataDTO> data)
+        {
+            throw new NotImplementedException();
+        }
+
+        internal static string GetEditSchemaJoi(List<DataDTO> data)
+        {
+            throw new NotImplementedException();
+        }
+
+        internal static string GetFindByIdSchemaJoi(List<DataDTO> data)
+        {
+            throw new NotImplementedException();
+        }
+
+        internal static string GetFindSchemaJoi(List<DataDTO> data)
+        {
+            throw new NotImplementedException();
+        }
+
+        internal static string GetPropsEntityTs(List<DataDTO> data)
+        {
+            throw new NotImplementedException();
         }
     }
 }

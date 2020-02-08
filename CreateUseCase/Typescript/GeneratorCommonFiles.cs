@@ -71,7 +71,6 @@ namespace CreateUseCase
             this.createFile.LoadFile(path, fileName, content);
         }
 
-        // TODO : Implement load variables
         public void CreateCommand(string _case, string data)
         {
             string path = this.createFile.CombinePath(Paths.CommandPath, this.category);
