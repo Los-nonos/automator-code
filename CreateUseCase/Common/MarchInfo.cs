@@ -112,11 +112,11 @@ namespace CreateUseCase
             }
             else
             {
-                pattern = ("\t@PrimaryGeneratedColumn()\n\tpublic Id!: number");
+                pattern = ("\t@PrimaryGeneratedColumn()\n\tpublic Id!: number;\n");
 
                 foreach (var item in data)
                 {
-                    pattern += string.Format("\t{0}\n\t{1}", item.PropertyEntity, item.ValueEntity);
+                    pattern += string.Format("\t{0}\n\t{1}\n", item.PropertyEntity, item.ValueEntity);
                 }
             }
 
