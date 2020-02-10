@@ -57,11 +57,11 @@
   "project": {
     "version": "1.0.0",
     "restore": {
-      "projectUniqueName": "/home/cristian/Documentos/personal projects/automator-code/CreateUseCase/CreateUseCase.csproj",
+      "projectUniqueName": "/home/cristian/Documentos/PersonalProjects/AutomatorCode/CreateUseCase/CreateUseCase.csproj",
       "projectName": "CreateUseCase",
-      "projectPath": "/home/cristian/Documentos/personal projects/automator-code/CreateUseCase/CreateUseCase.csproj",
+      "projectPath": "/home/cristian/Documentos/PersonalProjects/AutomatorCode/CreateUseCase/CreateUseCase.csproj",
       "packagesPath": "/home/cristian/.nuget/packages/",
-      "outputPath": "/home/cristian/Documentos/personal projects/automator-code/CreateUseCase/obj/",
+      "outputPath": "/home/cristian/Documentos/PersonalProjects/AutomatorCode/CreateUseCase/obj/",
       "projectStyle": "PackageReference",
       "configFilePaths": [
         "/home/cristian/.nuget/NuGet/NuGet.Config"

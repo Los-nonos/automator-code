@@ -11,3 +11,16 @@
 /home/cristian/Documentos/personal projects/automator-code/CreateUseCase/obj/Debug/netcoreapp3.1/CreateUseCase.pdb
 /home/cristian/Documentos/personal projects/automator-code/CreateUseCase/bin/Debug/netcoreapp3.1/Newtonsoft.Json.dll
 /home/cristian/Documentos/personal projects/automator-code/CreateUseCase/obj/Debug/netcoreapp3.1/CreateUseCase.csproj.CopyComplete
+/home/cristian/Documentos/PersonalProjects/AutomatorCode/CreateUseCase/bin/Debug/netcoreapp3.1/CreateUseCase
+/home/cristian/Documentos/PersonalProjects/AutomatorCode/CreateUseCase/bin/Debug/netcoreapp3.1/CreateUseCase.deps.json
+/home/cristian/Documentos/PersonalProjects/AutomatorCode/CreateUseCase/bin/Debug/netcoreapp3.1/CreateUseCase.runtimeconfig.json
+/home/cristian/Documentos/PersonalProjects/AutomatorCode/CreateUseCase/bin/Debug/netcoreapp3.1/CreateUseCase.runtimeconfig.dev.json
+/home/cristian/Documentos/PersonalProjects/AutomatorCode/CreateUseCase/bin/Debug/netcoreapp3.1/CreateUseCase.dll
+/home/cristian/Documentos/PersonalProjects/AutomatorCode/CreateUseCase/bin/Debug/netcoreapp3.1/CreateUseCase.pdb
+/home/cristian/Documentos/PersonalProjects/AutomatorCode/CreateUseCase/bin/Debug/netcoreapp3.1/Newtonsoft.Json.dll
+/home/cristian/Documentos/PersonalProjects/AutomatorCode/CreateUseCase/obj/Debug/netcoreapp3.1/CreateUseCase.csprojAssemblyReference.cache
+/home/cristian/Documentos/PersonalProjects/AutomatorCode/CreateUseCase/obj/Debug/netcoreapp3.1/CreateUseCase.AssemblyInfoInputs.cache
+/home/cristian/Documentos/PersonalProjects/AutomatorCode/CreateUseCase/obj/Debug/netcoreapp3.1/CreateUseCase.AssemblyInfo.cs
+/home/cristian/Documentos/PersonalProjects/AutomatorCode/CreateUseCase/obj/Debug/netcoreapp3.1/CreateUseCase.csproj.CopyComplete
+/home/cristian/Documentos/PersonalProjects/AutomatorCode/CreateUseCase/obj/Debug/netcoreapp3.1/CreateUseCase.dll
+/home/cristian/Documentos/PersonalProjects/AutomatorCode/CreateUseCase/obj/Debug/netcoreapp3.1/CreateUseCase.pdb

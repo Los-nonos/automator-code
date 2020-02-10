@@ -40,6 +40,16 @@
     "valueEntity": "public Email: string;"
   },
   {
+    "name": "address",
+    "variableCommand": "private readonly address: string;",
+    "param": "address: string",
+    "assignConstructor": "this.address = address;",
+    "function": "getAddress(): string { return this.address; }",
+    "schemaJoi": "address: Joi.string().min(3).max(255).required(),",
+    "propertyEntity": "@Column()",
+    "valueEntity": "public Address: string;"
+  },
+  {
     "name": "dni",
     "variableCommand": "private readonly dni: number;",
     "param": "dni: number",
@@ -48,6 +58,26 @@
     "schemaJoi": "dni: Joi.number().min(1000000).max(99999999).required(),",
     "propertyEntity": "@Column()",
     "valueEntity": "public Dni: number;"
+  },
+  {
+    "name": "cuil",
+    "variableCommand": "private readonly cuil: number;",
+    "param": "cuil: number",
+    "assignConstructor": "this.cuil = cuil;",
+    "function": "getCuil(): string { return this.cuil; }",
+    "schemaJoi": "cuil: Joi.number().min(100000000).max(9999999999).required(),",
+    "propertyEntity": "@Column()",
+    "valueEntity": "public Cuil: number;"
+  },
+  {
+    "name": "cuit",
+    "variableCommand": "private readonly cuit: number;",
+    "param": "cuit: number",
+    "assignConstructor": "this.cuit = cuit;",
+    "function": "getCuit(): string { return this.cuit; }",
+    "schemaJoi": "cuit: Joi.number().min(100000000).max(9999999999).required(),",
+    "propertyEntity": "@Column()",
+    "valueEntity": "public Cuit: number;"
   },
   {
     "name": "phone",
