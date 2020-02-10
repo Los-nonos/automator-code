@@ -12,12 +12,62 @@
   {
     "name": "name",
     "variableCommand": "private readonly name: string;",
-    "param": "id: string",
+    "param": "name: string",
     "assignConstructor": "this.name = name;",
     "function": "getName(): string { return this.name; }",
     "schemaJoi": "name: Joi.string().min(5).max(100).required(),",
     "propertyEntity": "@Column()",
     "valueEntity": "public Name: string;"
+  },
+  {
+    "name": "surname",
+    "variableCommand": "private readonly surname: string;",
+    "param": "surname: string",
+    "assignConstructor": "this.surname = surname;",
+    "function": "getSurname(): string { return this.surname; }",
+    "schemaJoi": "surname: Joi.string().min(5).max(100).required(),",
+    "propertyEntity": "@Column()",
+    "valueEntity": "public Surname: string;"
+  },
+  {
+    "name": "email",
+    "variableCommand": "private readonly email: string;",
+    "param": "email: string",
+    "assignConstructor": "this.email = email;",
+    "function": "getEmail(): string { return this.email; }",
+    "schemaJoi": "email: Joi.string().email().max(255).required(),",
+    "propertyEntity": "@Column()",
+    "valueEntity": "public Email: string;"
+  },
+  {
+    "name": "dni",
+    "variableCommand": "private readonly dni: number;",
+    "param": "dni: number",
+    "assignConstructor": "this.dni = dni;",
+    "function": "getDni(): string { return this.dni; }",
+    "schemaJoi": "dni: Joi.number().min(1000000).max(99999999).required(),",
+    "propertyEntity": "@Column()",
+    "valueEntity": "public Dni: number;"
+  },
+  {
+    "name": "phone",
+    "variableCommand": "private readonly phone: string;",
+    "param": "phone: string",
+    "assignConstructor": "this.phone = phone;",
+    "function": "getPhone(): string { return this.phone; }",
+    "schemaJoi": "phone: Joi.string().min(8).max(20).required(),",
+    "propertyEntity": "@Column()",
+    "valueEntity": "public Phone: string;"
+  },
+  {
+    "name": "usename",
+    "variableCommand": "private readonly username: string;",
+    "param": "username: string",
+    "assignConstructor": "this.username = username;",
+    "function": "getUsername(): string { return this.username; }",
+    "schemaJoi": "username: Joi.string().min(8).max(30).required(),",
+    "propertyEntity": "@Column()",
+    "valueEntity": "public Username: string;"
   },
   {
     "name": "password",
@@ -28,6 +78,86 @@
     "schemaJoi": "password: Joi.string().min(8).max(30).required(),",
     "propertyEntity": "@Column()",
     "valueEntity": "public Password: string;"
+  },
+  {
+    "name": "token",
+    "variableCommand": "private readonly token: string;",
+    "param": "token: string",
+    "assignConstructor": "this.token = token;",
+    "function": "getToken(): string { return this.token; }",
+    "schemaJoi": "token: Joi.string().min(8).max(500).required(),",
+    "propertyEntity": "",
+    "valueEntity": ""
+  },
+  {
+    "name": "title",
+    "variableCommand": "private readonly title: string;",
+    "param": "title: string",
+    "assignConstructor": "this.title = title;",
+    "function": "getTitle(): string { return this.title; }",
+    "schemaJoi": "title: Joi.string().min(3).max(100).required(),",
+    "propertyEntity": "@Column()",
+    "valueEntity": "public Title: string;"
+  },
+  {
+    "name": "grade",
+    "variableCommand": "private readonly grade: string;",
+    "param": "grade: string",
+    "assignConstructor": "this.grade = grade;",
+    "function": "getGrade(): string { return this.grade; }",
+    "schemaJoi": "grade: Joi.string().min(3).max(100).required(),",
+    "propertyEntity": "@Column()",
+    "valueEntity": "public Grade: string;"
+  },
+  {
+    "name": "institution",
+    "variableCommand": "private readonly institution: string;",
+    "param": "institution: string",
+    "assignConstructor": "this.institution = institution;",
+    "function": "getInstitution(): string { return this.institution; }",
+    "schemaJoi": "institution: Joi.string().min(3).max(100).required(),",
+    "propertyEntity": "@Column()",
+    "valueEntity": "public Institution: string;"
+  },
+  {
+    "name": "startDate",
+    "variableCommand": "private readonly startDate: Date;",
+    "param": "startDate: Date",
+    "assignConstructor": "this.startDate = startDate;",
+    "function": "getStartDate(): string { return this.startDate; }",
+    "schemaJoi": "startDate: Joi.date().iso().required(),",
+    "propertyEntity": "@Column()",
+    "valueEntity": "public StartDate: Date;"
+  },
+  {
+    "name": "endDate",
+    "variableCommand": "private readonly endDate: Date;",
+    "param": "endDate: Date",
+    "assignConstructor": "this.endDate = endDate;",
+    "function": "getEndDate(): string { return this.endDate; }",
+    "schemaJoi": "endDate: Joi.date().iso().allow(null).required(),",
+    "propertyEntity": "@Column()",
+    "valueEntity": "public EndDate: Date;"
+  },
+  {
+    "name": "city",
+    "variableCommand": "private readonly city: string;",
+    "param": "city: string",
+    "assignConstructor": "this.city = city;",
+    "function": "getCity(): string { return this.city; }",
+    "schemaJoi": "city: Joi.string().min(3).max(100).required(),",
+    "propertyEntity": "@Column()",
+    "valueEntity": "public City: string;"
+  },
+  {
+    "name": "state",
+    "variableCommand": "private readonly state: string;",
+    "param": "state: string",
+    "assignConstructor": "this.state = state;",
+    "function": "getState(): string { return this.state; }",
+    "schemaJoi": "state: Joi.string().min(3).max(100).required(),",
+    "propertyEntity": "@Column()",
+    "valueEntity": "public State: string;"
   },
   {
     "name": "country",
@@ -48,5 +178,45 @@
     "schemaJoi": "description: Joi.string().min(15).max(255).allow(''),",
     "propertyEntity": "@Column()",
     "valueEntity": "public Description: string;"
+  },
+  {
+    "name": "tinyDescription",
+    "variableCommand": "private readonly tinyDescription: string;",
+    "param": "tinyDescription: string",
+    "assignConstructor": "this.tinyDescription = tinyDescription;",
+    "function": "getTinyDescription(): string { return this.tinyDescription; }",
+    "schemaJoi": "tinyDescription: Joi.string().min(15).max(100).allow(''),",
+    "propertyEntity": "@Column()",
+    "valueEntity": "public TinyDescription: string;"
+  },
+  {
+    "name": "client",
+    "variableCommand": "private readonly client: string;",
+    "param": "client: string",
+    "assignConstructor": "this.client = client;",
+    "function": "getClient(): string { return this.client; }",
+    "schemaJoi": "client: Joi.string().min(3).max(100).allow(''),",
+    "propertyEntity": "@Column()",
+    "valueEntity": "public Client: string;"
+  },
+  {
+    "name": "registrationDate",
+    "variableCommand": "private readonly registrationDate: Date;",
+    "param": "registrationDate: Date",
+    "assignConstructor": "this.registrationDate = registrationDate;",
+    "function": "getRegistrationDate(): string { return this.registrationDate; }",
+    "schemaJoi": "registrationDate: Joi.date().iso().required(),",
+    "propertyEntity": "@Column()",
+    "valueEntity": "public RegistrationDate: Date;"
+  },
+  {
+    "name": "isAvailable",
+    "variableCommand": "private readonly isAvailable: boolean;",
+    "param": "isAvailable: boolean",
+    "assignConstructor": "this.isAvailable = isAvailable;",
+    "function": "getIsAvailable(): boolean { return this.isAvailable; }",
+    "schemaJoi": "isAvailable: Joi.boolean().required(),",
+    "propertyEntity": "@Column()",
+    "valueEntity": "public IsAvailable: boolean;"
   }
 ]
