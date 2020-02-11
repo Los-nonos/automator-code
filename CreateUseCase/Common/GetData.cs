@@ -44,13 +44,36 @@ namespace CreateUseCase
             }
         }
 
-        public string[] GetContentAction(string name, string name_adapter, string name_handler, string category)
+        public string[] GetContentAction(string name, string name_adapter, string name_handler, string name_presenter, string category)
         {
+            string message = "";
+            if (name.Contains("Create"))
+            {
+                message = string.Format("{0} created satisfully", category);
+            }
+            else if (name.Contains("Edit"))
+            {
+                message = string.Format("{0} updated satisfully", category);
+            }
+            else if (name.Contains("Deleted"))
+            {
+                message = string.Format("{0} deleted satisfully", category);
+            }
+            else if (name.Contains("FindById"))
+            {
+                message = string.Format("{0} found", category);
+            }
+            else
+            {
+                message = string.Format("{0} founds", category);
+            }
+
+
             return new string[]
             {
                 "import { Request, Response } from 'express';",
                 "import { inject, injectable } from 'inversify';",
-                string.Format("import Presenter from '../../Presenter/{0}/null';", name),
+                string.Format("import Presenter from '../../Presenter/{0}/null';", category, name_presenter),
                 "import { success } from '../../Presenter/Base/success';",
                 "import { HTTP_CODES } from '../../Enums/HttpCodes';",
                 string.Format("import {0} from '../../Adapters/{1}/{0}';", name_adapter, category),
@@ -70,7 +93,7 @@ namespace CreateUseCase
                 "\t\tconst response: any = await this.handler.execute(command);",
                 "\t\tconst presenter = new Presenter(response);",
                 "",
-                "\t\tres.status(HTTP_CODES.OK).json(success(presenter.getData(), null));",
+                string.Format("\t\tres.status(HTTP_CODES.OK).json(success(presenter.getData(), {0}));", message),
                 "\t}",
                 "}",
                 "",
@@ -78,35 +101,166 @@ namespace CreateUseCase
             };
         }
 
-        public string[] GetContentAdapter(string name, string name_command, string name_schema, string category)
+        public string[] GetContentAdapter(string name, string name_command, string type_schema, string name_schema, string category)
         {
-            return new string[]
+            if (name.Contains("Create"))
             {
-                "import { Request, Response } from 'express';",
-                "import { inject, injectable } from 'inversify';",
-                "import Validator from '../../Validator/Validator';",
-                "import { BadRequest } from '../../Errors/BadRequest';",
-                string.Format("import {0} from '../../../../Application/Commands/{1}/{0}';", name_command, category),
-                string.Format("import {0}{1} from '../../Validator/Schemas/{0}';", name, name_schema),
-                "",
-                "@injectable()",
-                string.Format("class {0}", name),
-                "{",
-                "\tprivate validator: Validator;",
-                "\tconstructor(@inject(Validator) validator: Validator) {",
-                "\t\tthis.validator = validator;",
-                "\t}",
-                "\tpublic async from(req: Request): Promise<"+name_command+"> {",
-                string.Format("\t\tconst error = this.validator.validate(req.body, {0}{1});", name, name_schema),
-                "\t\tif(error) {",
-                "\t\t\tthrow new BadRequest(JSON.stringify(this.validator.validationResult(error)));",
-                "\t\t}",
-                string.Format("\t\treturn new {0}(req.body);", name_command),
-                "\t}",
-                "}",
-                "",
-                string.Format("export default {0};", name)
-            };
+                return new string[]
+                {
+                    "import { Request, Response } from 'express';",
+                    "import { inject, injectable } from 'inversify';",
+                    "import Validator from '../../Validator/Validator';",
+                    "import { BadRequest } from '../../Errors/BadRequest';",
+                    string.Format("import {0} from '../../../../Application/Commands/{1}/{0}';", name_command, category),
+                    string.Format("import {0} from '../../Validator/Schemas/{1}';", type_schema, name_schema),
+                    "",
+                    "@injectable()",
+                    string.Format("class {0}", name),
+                    "{",
+                    "\tprivate validator: Validator;",
+                    "\tconstructor(@inject(Validator) validator: Validator) {",
+                    "\t\tthis.validator = validator;",
+                    "\t}",
+                    "\tpublic async from(req: Request): Promise<"+name_command+"> {",
+                    string.Format("\t\tconst error = this.validator.validate(req.body, {0});", type_schema),
+                    "\t\tif(error) {",
+                    "\t\t\tthrow new BadRequest(JSON.stringify(this.validator.validationResult(error)));",
+                    "\t\t}",
+                    string.Format("\t\treturn new {0}(req.body);", name_command),
+                    "\t}",
+                    "}",
+                    "",
+                    string.Format("export default {0};", name)
+                };
+            }
+            else if (name.Contains("Edit"))
+            {
+                return new string[]
+                {
+                    "import { Request, Response } from 'express';",
+                    "import { inject, injectable } from 'inversify';",
+                    "import Validator from '../../Validator/Validator';",
+                    "import { BadRequest } from '../../Errors/BadRequest';",
+                    string.Format("import {0} from '../../../../Application/Commands/{1}/{0}';", name_command, category),
+                    string.Format("import {0} from '../../Validator/Schemas/{1}';", type_schema, name_schema),
+                    "",
+                    "@injectable()",
+                    string.Format("class {0}", name),
+                    "{",
+                    "\tprivate validator: Validator;",
+                    "\tconstructor(@inject(Validator) validator: Validator) {",
+                    "\t\tthis.validator = validator;",
+                    "\t}",
+                    "\tpublic async from(req: Request): Promise<"+name_command+"> {",
+                    string.Format("\t\tconst error = this.validator.validate(req.body, {0});", type_schema),
+                    "\t\tconst errorId = this.validator.validate(req.params, IdSchema);",
+                    "\t\tif(error) {",
+                    "\t\t\tthrow new BadRequest(JSON.stringify(this.validator.validationResult(error)));",
+                    "\t\t}",
+                    "\t\tif(errorId) {",
+                    "\t\t\tthrow new BadRequest(JSON.stringify(this.validator.validationResult(errorId)));",
+                    "\t\t}",
+                    string.Format("\t\treturn new {0}(req.body);", name_command),
+                    "\t}",
+                    "}",
+                    "",
+                    string.Format("export default {0};", name)
+                };
+            }
+            else if (name.Contains("FindById"))
+            {
+                return new string[]
+                {
+                    "import { Request, Response } from 'express';",
+                    "import { inject, injectable } from 'inversify';",
+                    "import Validator from '../../Validator/Validator';",
+                    "import { BadRequest } from '../../Errors/BadRequest';",
+                    string.Format("import {0} from '../../../../Application/Commands/{1}/{0}';", name_command, category),
+                    "import { IdSchema } from '../../Validator/Schemas/Common';",
+                    "",
+                    "@injectable()",
+                    string.Format("class {0}", name),
+                    "{",
+                    "\tprivate validator: Validator;",
+                    "\tconstructor(@inject(Validator) validator: Validator) {",
+                    "\t\tthis.validator = validator;",
+                    "\t}",
+                    "\tpublic async from(req: Request): Promise<"+name_command+"> {",
+                    "\t\tconst error = this.validator.validate(req.params, IdSchema);",
+                    "\t\tif(error) {",
+                    "\t\t\tthrow new BadRequest(JSON.stringify(this.validator.validationResult(error)));",
+                    "\t\t}",
+                    string.Format("\t\treturn new {0}(req.body);", name_command),
+                    "\t}",
+                    "}",
+                    "",
+                    string.Format("export default {0};", name)
+                };
+            }
+            else if (name.Contains("Find"))
+            {
+                return new string[]
+                {
+                    "import { Request, Response } from 'express';",
+                    "import { inject, injectable } from 'inversify';",
+                    "import Validator from '../../Validator/Validator';",
+                    "import { BadRequest } from '../../Errors/BadRequest';",
+                    string.Format("import {0} from '../../../../Application/Commands/{1}/{0}';", name_command, category),
+                    string.Format("import {0} from '../../Validator/Schemas/{1}';", type_schema, name_schema),
+                    "",
+                    "@injectable()",
+                    string.Format("class {0}", name),
+                    "{",
+                    "\tprivate validator: Validator;",
+                    "\tconstructor(@inject(Validator) validator: Validator) {",
+                    "\t\tthis.validator = validator;",
+                    "\t}",
+                    "\tpublic async from(req: Request): Promise<"+name_command+"> {",
+                    string.Format("\t\tconst error = this.validator.validate(req.params, {0});", type_schema),
+                    "\t\tif(error) {",
+                    "\t\t\tthrow new BadRequest(JSON.stringify(this.validator.validationResult(error)));",
+                    "\t\t}",
+                    string.Format("\t\treturn new {0}(req.body);", name_command),
+                    "\t}",
+                    "}",
+                    "",
+                    string.Format("export default {0};", name)
+                };
+            }
+            else if (name.Contains("Delete"))
+            {
+                return new string[]
+                {
+                    "import { Request, Response } from 'express';",
+                    "import { inject, injectable } from 'inversify';",
+                    "import Validator from '../../Validator/Validator';",
+                    "import { BadRequest } from '../../Errors/BadRequest';",
+                    string.Format("import {0} from '../../../../Application/Commands/{1}/{0}';", name_command, category),
+                    "import { IdSchema } from '../../Validator/Schemas/Common';",
+                    "",
+                    "@injectable()",
+                    string.Format("class {0}", name),
+                    "{",
+                    "\tprivate validator: Validator;",
+                    "\tconstructor(@inject(Validator) validator: Validator) {",
+                    "\t\tthis.validator = validator;",
+                    "\t}",
+                    "\tpublic async from(req: Request): Promise<"+name_command+"> {",
+                    "\t\tconst error = this.validator.validate(req.params, IdSchema);",
+                    "\t\tif(error) {",
+                    "\t\t\tthrow new BadRequest(JSON.stringify(this.validator.validationResult(error)));",
+                    "\t\t}",
+                    string.Format("\t\treturn new {0}(req.body);", name_command),
+                    "\t}",
+                    "}",
+                    "",
+                    string.Format("export default {0};", name)
+                };
+            }
+            else
+            {
+                throw new Exception("Name not valid");
+            }
         }
 
         public string[] GetContentRouter(string name, string category)
@@ -200,19 +354,42 @@ namespace CreateUseCase
 
         public string[] GetContentCommand(string name, List<DataDTO> data)
         {
-            return new string[]
+            if (name.Contains("Create") || name.Contains("Edit") || (name.Contains("Find") && !name.Contains("FindById")))
             {
-                string.Format("class {0}", name),
-                "{",
-                MatchInfo.GetVariables(data),
-                "\tconstructor("+MatchInfo.GetParams(data)+") {",
-                "\t\t"+ MatchInfo.GetConstructor(data),
-                "\t}",
-                MatchInfo.GetFunctions(data),
-                "}",
-                "",
-                string.Format("export default {0};", name)
-            };
+                return new string[]
+                {
+                    string.Format("class {0}", name),
+                    "{",
+                    MatchInfo.GetVariables(data),
+                    "\tconstructor("+MatchInfo.GetParams(data)+") {",
+                    "\t\t"+ MatchInfo.GetConstructor(data),
+                    "\t}",
+                    MatchInfo.GetFunctions(data),
+                    "}",
+                    "",
+                    string.Format("export default {0};", name)
+                };
+            }
+            else if (name.Contains("Delete") || name.Contains("FindById"))
+            {
+                return new string[]
+                {
+                    string.Format("class {0}", name),
+                    "{",
+                    "\tprivate id: number;",
+                    "\tconstructor(id: number) {",
+                    "\t\tthis.id = id;",
+                    "\t}",
+                    "\tpublic getId(): number { return this.id; }",
+                    "}",
+                    "",
+                    string.Format("export default {0};", name)
+                };
+            }
+            else
+            {
+                throw new Exception("Invalid name for content command");
+            }
         }
 
         public string[] GetContentPresenter(string name)

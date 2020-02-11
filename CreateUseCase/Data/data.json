@@ -5,7 +5,7 @@
     "param": "id: number",
     "assignConstructor": "this.id = id;",
     "function": "getId(): number { return this.id; }",
-    "schemaJoi": "id: Joi.number().min(0).required(),",
+    "schemaJoi": "id: Joi.number().min(0),",
     "propertyEntity": "@PrimaryGeneratedColumn()",
     "valueEntity": "public Id!: number;"
   },

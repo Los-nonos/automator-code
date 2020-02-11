@@ -65,7 +65,7 @@ namespace CreateUseCase
 
             foreach (var item in data)
             {
-                pattern += item.SchemaJoi;    
+                pattern += string.Format("{0}.required(),", item.SchemaJoi);
             }
 
             return pattern;
@@ -73,11 +73,16 @@ namespace CreateUseCase
 
         internal static string GetEditSchemaJoi(List<DataDTO> data)
         {
+            if (data[0].type == "id")
+            {
+                data.Remove(data[0]);
+            }
+
             string pattern = "";
 
             foreach (var item in data)
             {
-                pattern += item.SchemaJoi;    
+                pattern += string.Format("{0}.required(),", item.SchemaJoi);
             }
 
             return pattern;
@@ -94,7 +99,7 @@ namespace CreateUseCase
 
             foreach (var item in data)
             {
-                pattern += item.SchemaJoi;    
+                pattern += string.Format("{0}.allow(null),", item.SchemaJoi);
             }
 
             return pattern;
