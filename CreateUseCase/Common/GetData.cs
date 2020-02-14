@@ -73,8 +73,8 @@ namespace CreateUseCase
             {
                 "import { Request, Response } from 'express';",
                 "import { inject, injectable } from 'inversify';",
-                string.Format("import Presenter from '../../Presenter/{0}/null';", category, name_presenter),
-                "import { success } from '../../Presenter/Base/success';",
+                string.Format("import Presenter from '../../Presenters/{0}/{1}';", category, name_presenter),
+                "import { success } from '../../Presenters/Base/success';",
                 "import { HTTP_CODES } from '../../Enums/HttpCodes';",
                 string.Format("import {0} from '../../Adapters/{1}/{0}';", name_adapter, category),
                 string.Format("import {0} from '../../../../Application/Handlers/{1}/{0}';", name_handler, category),
@@ -93,7 +93,7 @@ namespace CreateUseCase
                 "\t\tconst response: any = await this.handler.execute(command);",
                 "\t\tconst presenter = new Presenter(response);",
                 "",
-                string.Format("\t\tres.status(HTTP_CODES.OK).json(success(presenter.getData(), {0}));", message),
+                string.Format("\t\tres.status(HTTP_CODES.OK).json(success(presenter.getData(), '{0}'));", message),
                 "\t}",
                 "}",
                 "",
@@ -336,7 +336,6 @@ namespace CreateUseCase
         {
             return new string[]
             {
-                "import { Request, Response } from 'express';",
                 "import { inject, injectable } from 'inversify';",
                 string.Format("import {0}Command from '../../Commands/{1}/{0}Command';", _case, category),
                 "",
@@ -354,7 +353,7 @@ namespace CreateUseCase
 
         public string[] GetContentCommand(string name, List<DataDTO> data)
         {
-            if (name.Contains("Create") || name.Contains("Edit") || (name.Contains("Find") && !name.Contains("FindById")))
+            if (name.Contains("Create") || (name.Contains("Find") && !name.Contains("FindById")))
             {
                 return new string[]
                 {
@@ -364,6 +363,24 @@ namespace CreateUseCase
                     "\tconstructor("+MatchInfo.GetParams(data)+") {",
                     "\t\t"+ MatchInfo.GetConstructor(data),
                     "\t}",
+                    MatchInfo.GetFunctions(data),
+                    "}",
+                    "",
+                    string.Format("export default {0};", name)
+                };
+            }
+            else if (name.Contains("Edit"))
+            {
+                return new string[]
+                {
+                    string.Format("class {0}", name),
+                    "{",
+                    "@private id: number",
+                    "\tconstructor(id: number, " + MatchInfo.GetParams(data) + ") {",
+                    "\t\tthis.id = id;",
+                    "\t\t" + MatchInfo.GetConstructor(data),
+                    "\t}",
+                    "\tpublic getId(): number { return this.id; }",
                     MatchInfo.GetFunctions(data),
                     "}",
                     "",
@@ -400,17 +417,15 @@ namespace CreateUseCase
                 "",
                 string.Format("class {0} implements IPresenter", name),
                 "{",
-                "\tprivate message: string;",
                 "\tprivate result: any;",
-                "\tconstructor(result: any, message: string) {",
+                "\tconstructor(result: any) {",
                 "\t\tthis.result = result;",
-                "\t\tthis.message = message;",
                 "\t}",
                 "\tpublic toJson(): string {",
                 "\t\treturn JSON.stringify(this.getData());",
                 "\t}",
                 "\tpublic getData(): object {",
-                "\t\treturn { message: this.message, result: this.result };",
+                "\t\treturn { result: this.result };",
                 "\t}",
                 "}",
                 "",
