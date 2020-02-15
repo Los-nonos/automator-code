@@ -143,6 +143,7 @@ namespace CreateUseCase
                     "import { BadRequest } from '../../Errors/BadRequest';",
                     string.Format("import {0} from '../../../../Application/Commands/{1}/{0}';", name_command, category),
                     string.Format("import {0} from '../../Validator/Schemas/{1}';", type_schema, name_schema),
+                    "import { IdSchema } from '../../Validator/Schemas/Common';",
                     "",
                     "@injectable()",
                     string.Format("class {0}", name),
@@ -259,7 +260,33 @@ namespace CreateUseCase
             }
             else
             {
-                throw new Exception("Name not valid");
+                return new string[] 
+                {
+                    "import { Request } from 'express';",
+                    "import { inject, injectable } from 'inversify';",
+                    "import Validator from '../../Validator/Validator';",
+                    "import { BadRequest } from '../../Errors/BadRequest';",
+                    string.Format("import {0} from '../../../../Application/Commands/{1}/{0}';", name_command, category),
+                    string.Format("import {0} from '../../Validator/Schemas/{1}';", type_schema, name_schema),
+                    "",
+                    "@injectable()",
+                    string.Format("class {0}", name),
+                    "{",
+                    "\tprivate validator: Validator;",
+                    "\tconstructor(@inject(Validator) validator: Validator) {",
+                    "\t\tthis.validator = validator;",
+                    "\t}",
+                    "\tpublic async from(req: Request): Promise<"+name_command+"> {",
+                    string.Format("\t\tconst error = this.validator.validate(req.body, {0});", type_schema),
+                    "\t\tif(error) {",
+                    "\t\t\tthrow new BadRequest(JSON.stringify(this.validator.validationResult(error)));",
+                    "\t\t}",
+                    string.Format("\t\treturn new {0}(req.body);", name_command),
+                    "\t}",
+                    "}",
+                    "",
+                    string.Format("export default {0};", name)
+                };
             }
         }
 
@@ -405,7 +432,19 @@ namespace CreateUseCase
             }
             else
             {
-                throw new Exception("Invalid name for content command");
+                return new string[]
+                {
+                    string.Format("class {0}", name),
+                    "{",
+                    MatchInfo.GetVariables(data),
+                    "\tconstructor("+MatchInfo.GetParams(data)+") {",
+                    "\t\t"+ MatchInfo.GetConstructor(data),
+                    "\t}",
+                    MatchInfo.GetFunctions(data),
+                    "}",
+                    "",
+                    string.Format("export default {0};", name)
+                };
             }
         }
 

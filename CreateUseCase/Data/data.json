@@ -90,7 +90,7 @@
     "valueEntity": "public Phone: string;"
   },
   {
-    "name": "usename",
+    "name": "username",
     "variableCommand": "private readonly username: string;",
     "param": "username: string",
     "assignConstructor": "this.username = username;",
