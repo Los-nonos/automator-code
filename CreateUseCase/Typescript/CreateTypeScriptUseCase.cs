@@ -16,7 +16,7 @@ namespace CreateUseCase
         public void Execute(string name, string data, string category)
         {
             this.createFile = new CreateFile(name, init_path);
-            var generatorCommon = new GeneratorCommonFiles(this.createFile, this.getData, name, category);
+            var generatorCommon = new GeneratorCommonFiles(this.createFile, this.getData, name, category, this.getData.ClearData(data));
             generatorCommon.CreatePresenter(name);
             generatorCommon.CreateHandler(name);
             generatorCommon.CreateAdapter(name);

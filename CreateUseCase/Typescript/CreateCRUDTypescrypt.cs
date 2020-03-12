@@ -1,5 +1,6 @@
 
 using System;
+using System.Collections.Generic;
 
 namespace CreateUseCase
 {
@@ -8,6 +9,8 @@ namespace CreateUseCase
         private string name_use_case;
         private string category;
         private string data;
+
+        List<DataDTO> dataClear;
         private string base_path;
         private CreateFile createFile;
         private GetData getData;
@@ -25,9 +28,10 @@ namespace CreateUseCase
 
             this.getData = new GetData();
             this.createFile = new CreateFile(name, base_path);
-            var generatorCode = new GeneratorCommonFiles(this.createFile, this.getData, name, category);
+            this.dataClear = this.getData.ClearData(data);
+            var generatorCode = new GeneratorCommonFiles(this.createFile, this.getData, name, category, this.dataClear);
 
-            string[] array = new string[] { "Create", "Edit", "Delete", "Find", "FindById" };
+            string[] array = new string[] { "Create", "Update", "Delete", "Find", "FindById" };
             foreach (var item in array)
             {
                 var _data = string.Format("{0}{1}", item, name);
@@ -50,14 +54,13 @@ namespace CreateUseCase
             string fileName = this.createFile.CreateName("ts");
             this.createFile.VerificateFileOrCreate(path, fileName);
 
-            var _data = this.getData.ClearData(this.data);
             string[] content = new string[] {
                 "import { PrimaryGeneratedColumn, Column, Entity } from 'typeorm';",
                 "",
                 "@Entity()",
                 string.Format("class {0}", category),
                 "{",
-                MatchInfo.GetPropsEntityTs(_data),
+                MatchInfo.GetPropsEntityTs(this.dataClear),
                 "}",
                 "",
                 string.Format("export default {0}", category)
@@ -158,23 +161,22 @@ namespace CreateUseCase
             string fileName = this.createFile.CreateName(_case, EnumsFiles.Schema, "ts");
             this.createFile.VerificateFileOrCreate(path, fileName);
 
-            var _data = this.getData.ClearData(this.data);
             string[] content = new string[] {
                 "import * as Joi from '@hapi/joi';",
                 "export const Create"+category+"Schema = Joi.object().keys({",
-                MatchInfo.GetCreateSchemaJoi(_data),
+                MatchInfo.GetCreateSchemaJoi(this.dataClear),
                 "});",
                 "export const Edit"+category+"Schema = Joi.object().keys({",
-                MatchInfo.GetEditSchemaJoi(_data),
+                MatchInfo.GetEditSchemaJoi(this.dataClear),
                 "});",
                 "export const FindById"+category+"Schema = Joi.object().keys({",
-                MatchInfo.GetFindByIdSchemaJoi(_data),
+                MatchInfo.GetFindByIdSchemaJoi(this.dataClear),
                 "});",
                 "export const Find"+category+"Schema = Joi.object().keys({",
-                MatchInfo.GetFindSchemaJoi(_data),
+                MatchInfo.GetFindSchemaJoi(this.dataClear),
                 "});",
                 "export const Delete"+category+"Schema = Joi.object().keys({",
-                MatchInfo.GetDeleteSchemaJoi(_data),
+                MatchInfo.GetDeleteSchemaJoi(this.dataClear),
                 "});"
             };
 

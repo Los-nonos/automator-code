@@ -1,4 +1,5 @@
 ﻿using System;
+using CreateArchitecture;
 
 namespace CreateUseCase
 {
@@ -12,23 +13,31 @@ namespace CreateUseCase
             string path = Console.ReadLine();
 
             verificator = new VerificateCategory(path);
-            Console.WriteLine("Ingrese una opción:");
-            Console.WriteLine("1 - PHP");
-            Console.WriteLine("2 - TypeScript");
-            string option = Console.ReadLine();
 
-            switch (option)
+            if (!verificator.VerificateExistArchitecture())
             {
-                case "1":
-                    creator = new CreatePHPUseCase(path);
-                    break;
-                case "2":
-                    HandleTypescript(path);
-                    break;
-                default:
-                    Console.WriteLine("la opción no es valida, abortando");
-                    return;
+                do
+                {
+                    Console.Write("La carpeta está vacía, ¿desea crear la arquitectura base? (y/n): ");
+                    string option = Console.ReadLine();
+                    if (option.ToLower() == "y")
+                    {
+                        var creatorArchitecture = new CreateBaseArchitecture(path);
+                        creatorArchitecture.execute(TypesArchitectures.HEXAGONAL);
+                        break;
+                    }
+                    else if (option.ToLower() == "n")
+                    {
+                        break;
+                    }
+                    else
+                    {
+                        Console.WriteLine("Ingrese una opcion valida");
+                    }
+                } while (true);
             }
+
+            HandleTypescript(path);
 
             Console.WriteLine("Hecho!");
         }
@@ -37,10 +46,9 @@ namespace CreateUseCase
         {
             Console.Write("Ingrese la categoria del caso de uso: ");
             string category = Console.ReadLine();
-            Console.WriteLine(verificator.Verificate(category));
             if (!verificator.Verificate(category))
             {
-                Console.Write("La categoria no existe, ¿desea crear el CRUD?: (y/n)");
+                Console.Write("La categoria no existe, ¿desea crear el CRUD? (y/n): ");
                 string _option = Console.ReadLine();
                 switch (_option)
                 {
@@ -57,7 +65,7 @@ namespace CreateUseCase
                         return;
                 }
             }
-            
+
             creator = new CreateTypeScriptUseCase(path);
             Console.Write("Ingrese un nombre de caso de uso: ");
             string name = Console.ReadLine();

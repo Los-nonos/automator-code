@@ -1,3 +1,5 @@
+using System.Collections.Generic;
+
 namespace CreateUseCase
 {
     internal class GeneratorCommonFiles
@@ -6,14 +8,15 @@ namespace CreateUseCase
         private GetData getData;
         private string category;
         private string name_use_case;
+        private List<DataDTO> dataClean;
 
-
-        public GeneratorCommonFiles(CreateFile createFile, GetData getData, string name, string category)
+        public GeneratorCommonFiles(CreateFile createFile, GetData getData, string name, string category, List<DataDTO> dataClean)
         {
             this.createFile = createFile;
             this.getData = getData;
             this.category = category;
             this.name_use_case = name;
+            this.dataClean = dataClean;
         }
 
         public void CreateAdapter(string _case)
@@ -42,7 +45,8 @@ namespace CreateUseCase
             string name_handler = string.Format("{0}{1}", _case, EnumsFiles.Handler);
             string name_adapter = string.Format("{0}{1}", _case, EnumsFiles.Adapter);
             string name_presenter = string.Format("{0}{1}", _case, EnumsFiles.Presenter);
-            string[] content = this.getData.GetContentAction(name, name_adapter, name_handler, name_presenter, this.category);
+            string name_command = string.Format("{0}{1}", _case, EnumsFiles.Command);
+            string[] content = this.getData.GetContentAction(name, this.category, name_adapter, name_handler, name_presenter, name_command);
 
             this.createFile.LoadFile(path, fileName, content);
         }
@@ -81,7 +85,7 @@ namespace CreateUseCase
 
             string name = string.Format("{0}{1}", _case, EnumsFiles.Command);
 
-            string[] content = this.getData.GetContentCommand(name, this.getData.ClearData(data));
+            string[] content = this.getData.GetContentCommand(name, this.dataClean);
 
             this.createFile.LoadFile(path, fileName, content);
         }
