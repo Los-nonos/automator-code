@@ -30,7 +30,7 @@ namespace CreateUseCase
             string name_schema = string.Format("{0}{1}", name_use_case, EnumsFiles.Schema);
             string type_schema = string.Format("{0}{1}", _case, EnumsFiles.Schema);
 
-            string[] content = this.getData.GetContentAdapter(name, name_command, type_schema, name_schema, this.category);
+            string[] content = this.getData.GetContentAdapter(name, name_command, type_schema, name_schema, this.category, this.dataClean);
 
             this.createFile.LoadFile(path, fileName, content);
         }

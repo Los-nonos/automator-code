@@ -31,7 +31,7 @@ namespace CreateUseCase
             this.dataClear = this.getData.ClearData(data);
             var generatorCode = new GeneratorCommonFiles(this.createFile, this.getData, name, category, this.dataClear);
 
-            string[] array = new string[] { "Create", "Update", "Delete", "Find", "FindById" };
+            string[] array = new string[] { "Store", "Update", "Destroy", "Index", "Show" };
             foreach (var item in array)
             {
                 var _data = string.Format("{0}{1}", item, name);
@@ -80,11 +80,10 @@ namespace CreateUseCase
                 string.Format("import {0} from '../Entities/{0}';", category),
                 "",
                 string.Format("export default interface I{0}Repository ", category) + "{",
-                string.Format("\tFindById(id: number): Promise<{0}>;",category),
-                string.Format("\tFind(params: any): Promise<{0}[]>;",category),
-                string.Format("\tPersist(t: {0}): Promise<{0}>;", category),
-                string.Format("\tUpdate(t: {0}): Promise<void>;", category),
-                string.Format("\tDelete(t: {0}): Promise<void>;",category),
+                string.Format("\tfindById(id: number): Promise<{0}>;",category),
+                string.Format("\tfind(params: any): Promise<{0}[]>;",category),
+                string.Format("\tpersist(t: {0}): Promise<{0}>;", category),
+                string.Format("\tdestroy(t: {0}): Promise<boolean>;",category),
                 "}"
             };
 
@@ -111,30 +110,21 @@ namespace CreateUseCase
                 string.Format("\t\tthis.repository = getRepository({0});", category),
                 "\t}",
                 "",
-                string.Format("\tpublic async FindById(id: number): Promise<{0}> ", category) + "{",
+                string.Format("\tpublic async findById(id: number): Promise<{0}> ", category) + "{",
                 "\t\treturn await this.repository.findOne({ Id: id });",
                 "\t}",
                 "",
-                string.Format("\tpublic async Find(): Promise<{0}[]> ", category) + "{",
+                string.Format("\tpublic async find(): Promise<{0}[]> ", category) + "{",
                 "\t\treturn await this.repository.find();",
                 "\t}",
                 "",
-                string.Format("\tpublic async Persist(t: {0}): Promise<{0}> ", category) + "{",
+                string.Format("\tpublic async persist(t: {0}): Promise<{0}> ", category) + "{",
                 "\t\treturn await this.repository.save(t);",
                 "\t}",
                 "",
-                string.Format("\tpublic async Update(t: {0}): Promise<void> ", category) + "{",
-                "\t\tconst result = await this.repository.update({ Id: t.Id }, t);",
-                "\t\tif(!result.affected) {",
-                "\t\t\tthrow new EntityNotFound('');",
-                "\t\t}",
-                "\t}",
-                "",
-                string.Format("\tpublic async Delete(t: {0}): Promise<void> ", category) + "{",
-                "\t\tconst result = await this.repository.remove(t);",
-                "\t\tif(!result) {",
-                "\t\t\tthrow new EntityNotFound('');",
-                "\t\t}",
+                string.Format("\tpublic async destroy(t: {0}): Promise<boolean> ", category) + "{",
+                "\t\tconst result = await this.repository.destroy(t);",
+                "\t\treturn result && result.affected === 1;",
                 "\t}",
                 "}",
                 "",
@@ -163,19 +153,19 @@ namespace CreateUseCase
 
             string[] content = new string[] {
                 "import * as Joi from '@hapi/joi';",
-                "export const Create"+category+"Schema = Joi.object().keys({",
+                "export const Store"+category+"Schema = Joi.object().keys({",
                 MatchInfo.GetCreateSchemaJoi(this.dataClear),
                 "});",
-                "export const Edit"+category+"Schema = Joi.object().keys({",
+                "export const Update"+category+"Schema = Joi.object().keys({",
                 MatchInfo.GetEditSchemaJoi(this.dataClear),
                 "});",
-                "export const FindById"+category+"Schema = Joi.object().keys({",
+                "export const Show"+category+"Schema = Joi.object().keys({",
                 MatchInfo.GetFindByIdSchemaJoi(this.dataClear),
                 "});",
-                "export const Find"+category+"Schema = Joi.object().keys({",
+                "export const Index"+category+"Schema = Joi.object().keys({",
                 MatchInfo.GetFindSchemaJoi(this.dataClear),
                 "});",
-                "export const Delete"+category+"Schema = Joi.object().keys({",
+                "export const Destroy"+category+"Schema = Joi.object().keys({",
                 MatchInfo.GetDeleteSchemaJoi(this.dataClear),
                 "});"
             };
